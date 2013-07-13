@@ -26,6 +26,5 @@ set -ex
 # FIXME: even more crazy hack
 #sed -ie 's#val HADOOP_VERSION =.*#val HADOOP_VERSION = "'$HADOOP_VERSION'"#' project/Build.scala
 
-./sbt "++2.9.2 package"
-./sbt "++2.9.2 assembly-package-dependency"
-./sbt eclipse
+sbt "++2.9.2 package"
+sbt "++2.9.2 assembly-package-dependency"
