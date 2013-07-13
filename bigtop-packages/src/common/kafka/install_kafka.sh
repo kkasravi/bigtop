@@ -93,10 +93,10 @@ for var in PREFIX BUILD_DIR ; do
 done
 
 
-if [ -z "${SCALA_HOME}" ]; then
-    echo Missing env. var SCALA_HOME
-    usage
-fi
+#if [ -z "${SCALA_HOME}" ]; then
+#    echo Missing env. var SCALA_HOME
+#    usage
+#fi
 
 MAN_DIR=${MAN_DIR:-/usr/share/man/man1}
 DOC_DIR=${DOC_DIR:-/usr/share/doc/kafka}
@@ -105,13 +105,13 @@ INSTALLED_LIB_DIR=${INSTALLED_LIB_DIR:-/usr/lib/kafka}
 EXAMPLES_DIR=${EXAMPLES_DIR:-$DOC_DIR/examples}
 BIN_DIR=${BIN_DIR:-/usr/bin}
 CONF_DIR=${CONF_DIR:-/etc/kafka/conf.dist}
-SCALA_HOME=${SCALA_HOME:-/usr/share/scala}
+#SCALA_HOME=${SCALA_HOME:-/usr/share/scala}
 
 install -d -m 0755 $PREFIX/$LIB_DIR
 install -d -m 0755 $PREFIX/$DOC_DIR
 
 # FIXME: at some point we need to create a separate package for Scala
-cp -ra $SCALA_HOME $PREFIX/$LIB_DIR/scala
+#cp -ra $SCALA_HOME $PREFIX/$LIB_DIR/scala
 
 # FIXME: lib_managed is a terrible name for this
 cp -ra ${BUILD_DIR}/lib_managed $PREFIX/$LIB_DIR
@@ -149,8 +149,8 @@ elif [ -e /usr/lib/bigtop-utils/bigtop-detect-javahome ]; then
   . /usr/lib/bigtop-utils/bigtop-detect-javahome
 fi
 
-export SCALA_HOME=\${SCALA_HOME:-$LIB_DIR/scala}
-export PATH=\$PATH:\$SCALA_HOME/bin
+#export SCALA_HOME=\${SCALA_HOME:-$LIB_DIR/scala}
+#export PATH=\$PATH:\$SCALA_HOME/bin
 
 exec $INSTALLED_LIB_DIR/$wrap "\$@"
 EOF
