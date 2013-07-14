@@ -114,7 +114,7 @@ install -d -m 0755 $PREFIX/$DOC_DIR
 #cp -ra $SCALA_HOME $PREFIX/$LIB_DIR/scala
 
 # FIXME: lib_managed is a terrible name for this
-cp -ra ${BUILD_DIR}/lib_managed $PREFIX/$LIB_DIR
+cp -ra ${BUILD_DIR}/core/target/scala-2.9.2/*.jar $PREFIX/$LIB_DIR
 
 # FIXME: these need to be split into individual packages
 for comp in core repl bagel examples ; do
