@@ -59,9 +59,6 @@ while true ; do
         --build-dir)
         BUILD_DIR=$2 ; shift 2
         ;;
-        --doc-dir)
-        DOC_DIR=$2 ; shift 2
-        ;;
         --lib-dir)
         LIB_DIR=$2 ; shift 2
         ;;
@@ -99,42 +96,23 @@ done
 #fi
 
 MAN_DIR=${MAN_DIR:-/usr/share/man/man1}
-DOC_DIR=${DOC_DIR:-/usr/share/doc/kafka}
 LIB_DIR=${LIB_DIR:-/usr/lib/kafka}
 INSTALLED_LIB_DIR=${INSTALLED_LIB_DIR:-/usr/lib/kafka}
-EXAMPLES_DIR=${EXAMPLES_DIR:-$DOC_DIR/examples}
 BIN_DIR=${BIN_DIR:-/usr/bin}
 CONF_DIR=${CONF_DIR:-/etc/kafka/conf.dist}
 #SCALA_HOME=${SCALA_HOME:-/usr/share/scala}
 
 install -d -m 0755 $PREFIX/$LIB_DIR
-install -d -m 0755 $PREFIX/$DOC_DIR
 
-# FIXME: at some point we need to create a separate package for Scala
-#cp -ra $SCALA_HOME $PREFIX/$LIB_DIR/scala
-
-# FIXME: lib_managed is a terrible name for this
 cp -ra ${BUILD_DIR}/core/target/scala-2.9.2/*.jar $PREFIX/$LIB_DIR
 
-# FIXME: these need to be split into individual packages
-for comp in core repl bagel examples ; do
-  install -d -m 0755 $PREFIX/$LIB_DIR/$comp/lib
-  cp -a ${BUILD_DIR}/$comp/target/scala-*/*.jar $PREFIX/$LIB_DIR/$comp/lib
-  cp -a ${BUILD_DIR}/$comp/lib/* $PREFIX/$LIB_DIR/$comp/lib || :
-done
-
-# FIXME: executor scripts need to reside in bin
-cp -a ${BUILD_DIR}/run $PREFIX/$LIB_DIR
-cp -a ${BUILD_DIR}/spark-executor $PREFIX/$LIB_DIR
-cp -a ${BUILD_DIR}/spark-shell $PREFIX/$LIB_DIR
+install -d -m 0755 $PREFIX/$LIB_DIR/core/lib
+cp -a ${BUILD_DIR}/core/target/scala-*/*.jar $PREFIX/$LIB_DIR/core/lib
 
 # Copy in the configuration files
 install -d -m 0755 $PREFIX/$CONF_DIR
 cp -a ${BUILD_DIR}/conf/* $PREFIX/$CONF_DIR
 ln -s /etc/kafka/conf $PREFIX/$LIB_DIR/conf
-
-# Copy in the example files
-cp -a ${BUILD_DIR}/examples/ $PREFIX/$DOC_DIR/
 
 # Copy in the wrappers
 install -d -m 0755 $PREFIX/$BIN_DIR
