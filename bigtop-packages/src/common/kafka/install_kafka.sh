@@ -25,11 +25,9 @@ usage: $0 <options>
      --prefix=PREFIX             path to install into
 
   Optional options:
-     --doc-dir=DIR               path to install docs into [/usr/share/doc/kafka]
      --lib-dir=DIR               path to install Kafka home [/usr/lib/kafka]
      --installed-lib-dir=DIR     path where lib-dir will end up on target system
      --bin-dir=DIR               path to install bins [/usr/bin]
-     --examples-dir=DIR          path to install examples [doc-dir/examples]
      ... [ see source for more similar options ]
   "
   exit 1
@@ -39,11 +37,9 @@ OPTS=$(getopt \
   -n $0 \
   -o '' \
   -l 'prefix:' \
-  -l 'doc-dir:' \
   -l 'lib-dir:' \
   -l 'installed-lib-dir:' \
   -l 'bin-dir:' \
-  -l 'examples-dir:' \
   -l 'build-dir:' -- "$@")
 
 if [ $? != 0 ] ; then
@@ -68,9 +64,6 @@ while true ; do
         --bin-dir)
         BIN_DIR=$2 ; shift 2
         ;;
-        --examples-dir)
-        EXAMPLES_DIR=$2 ; shift 2
-        ;;
         --)
         shift ; break
         ;;
@@ -89,18 +82,10 @@ for var in PREFIX BUILD_DIR ; do
   fi
 done
 
-
-#if [ -z "${SCALA_HOME}" ]; then
-#    echo Missing env. var SCALA_HOME
-#    usage
-#fi
-
-MAN_DIR=${MAN_DIR:-/usr/share/man/man1}
 LIB_DIR=${LIB_DIR:-/usr/lib/kafka}
 INSTALLED_LIB_DIR=${INSTALLED_LIB_DIR:-/usr/lib/kafka}
 BIN_DIR=${BIN_DIR:-/usr/bin}
 CONF_DIR=${CONF_DIR:-/etc/kafka/conf.dist}
-#SCALA_HOME=${SCALA_HOME:-/usr/share/scala}
 
 install -d -m 0755 $PREFIX/$LIB_DIR
 
@@ -111,13 +96,12 @@ cp -a ${BUILD_DIR}/core/target/scala-*/*.jar $PREFIX/$LIB_DIR/core/lib
 
 # Copy in the configuration files
 install -d -m 0755 $PREFIX/$CONF_DIR
-cp -a ${BUILD_DIR}/conf/* $PREFIX/$CONF_DIR
+cp -a ${BUILD_DIR}/config/* $PREFIX/$CONF_DIR
 ln -s /etc/kafka/conf $PREFIX/$LIB_DIR/conf
 
-# Copy in the wrappers
 install -d -m 0755 $PREFIX/$BIN_DIR
-for wrap in spark-executor spark-shell ; do
-  cat > $PREFIX/$BIN_DIR/$wrap <<EOF
+#startkafka
+cat > $PREFIX/$BIN_DIR/startkafka <<EOF
 #!/bin/sh 
 
 # Autodetect JAVA_HOME if not defined
@@ -127,10 +111,6 @@ elif [ -e /usr/lib/bigtop-utils/bigtop-detect-javahome ]; then
   . /usr/lib/bigtop-utils/bigtop-detect-javahome
 fi
 
-#export SCALA_HOME=\${SCALA_HOME:-$LIB_DIR/scala}
-#export PATH=\$PATH:\$SCALA_HOME/bin
-
-exec $INSTALLED_LIB_DIR/$wrap "\$@"
+$BIN_DIR/kafka-server-start.sh $CONF_DIR/server.properties
 EOF
-  chmod 755 $PREFIX/$BIN_DIR/$wrap
-done
+chmod 755 $PREFIX/$BIN_DIR/startkafka
