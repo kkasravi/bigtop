@@ -61,8 +61,7 @@ bash $RPM_SOURCE_DIR/do-component-build
 %__rm -rf $RPM_BUILD_ROOT
 sh $RPM_SOURCE_DIR/install_kafka.sh \
           --build-dir=`pwd`         \
-          --prefix=$RPM_BUILD_ROOT  \
-          --doc-dir=%{doc_kafka} 
+          --prefix=$RPM_BUILD_ROOT
 
 %post
 %{alternatives_cmd} --install %{config_kafka} %{kafka_name}-conf %{config_kafka}.dist 30

@@ -47,7 +47,6 @@ install-indep:
 	dh_testroot
 	sh -x debian/install_kafka.sh \
 	  --build-dir=`pwd` \
-          --doc-dir=/usr/share/doc/kafka \
 	  --prefix=debian/kafka
 	dh_install -i
 	(dh_lintian) || /bin/true
