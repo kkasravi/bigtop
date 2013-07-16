@@ -88,6 +88,7 @@ BIN_DIR=${BIN_DIR:-/usr/bin}
 CONF_DIR=${CONF_DIR:-/etc/kafka/conf.dist}
 
 install -d -m 0755 $PREFIX/$LIB_DIR
+install -d -m 0755 $PREFIX/$LIB_DIR/bin
 
 cp -ra ${BUILD_DIR}/core/target/scala-*/*.jar $PREFIX/$LIB_DIR
 cp -ra ${BUILD_DIR}/bin/*.sh $PREFIX/$LIB_DIR/bin
