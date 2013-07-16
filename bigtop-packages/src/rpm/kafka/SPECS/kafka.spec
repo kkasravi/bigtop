@@ -51,7 +51,7 @@ Requires: bigtop-utils
 Kafka is a high-throughput distributed messaging system.
     
 %prep
-%setup -n %{name}-%{kafka_base_version}-beta1-src
+%setup -n %{name}-%{kafka_base_version}-src
 
 %build
 bash $RPM_SOURCE_DIR/do-component-build
