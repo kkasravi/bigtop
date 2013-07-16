@@ -90,9 +90,7 @@ CONF_DIR=${CONF_DIR:-/etc/kafka/conf.dist}
 install -d -m 0755 $PREFIX/$LIB_DIR
 
 cp -ra ${BUILD_DIR}/core/target/scala-*/*.jar $PREFIX/$LIB_DIR
-
-install -d -m 0755 $PREFIX/$LIB_DIR/core/lib
-cp -a ${BUILD_DIR}/core/target/scala-*/*.jar $PREFIX/$LIB_DIR/core/lib
+cp -ra ${BUILD_DIR}/bin/*.sh $PREFIX/$LIB_DIR/bin
 
 # Copy in the configuration files
 install -d -m 0755 $PREFIX/$CONF_DIR
@@ -111,8 +109,8 @@ elif [ -e /usr/lib/bigtop-utils/bigtop-detect-javahome ]; then
   . /usr/lib/bigtop-utils/bigtop-detect-javahome
 fi
 
-CLASSPATH=$CLASSPATH:$INSTALLED_LIB_DIR/*.jar
-$BIN_DIR/zookeeper-server-start.sh $CONF_DIR/zookeeper.properties&
-$BIN_DIR/kafka-server-start.sh $CONF_DIR/server.properties&
+CLASSPATH=$INSTALLED_LIB_DIR/*.jar
+$LIB_DIR/bin/zookeeper-server-start.sh $CONF_DIR/zookeeper.properties&
+$LIB_DIR/bin/kafka-server-start.sh $CONF_DIR/server.properties&
 EOF
 chmod 755 $PREFIX/$BIN_DIR/startkafka
