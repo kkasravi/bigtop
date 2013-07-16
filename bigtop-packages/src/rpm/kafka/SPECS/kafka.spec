@@ -51,8 +51,7 @@ Requires: bigtop-utils
 Kafka is a high-throughput distributed messaging system.
     
 %prep
-#%setup -n %{name}-%{kafka_base_version}
-%setup -n mesos-spark-baa30fc
+%setup
 
 %build
 bash $RPM_SOURCE_DIR/do-component-build
