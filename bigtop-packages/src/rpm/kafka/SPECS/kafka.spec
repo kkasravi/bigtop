@@ -78,6 +78,5 @@ fi
 %config(noreplace) %{config_kafka}.dist
 %{config_kafka}
 %{config_kafka}ig
-%{lib_kafka}
 %{lib_kafka}/config
 %{bin_kafka}/kafka
