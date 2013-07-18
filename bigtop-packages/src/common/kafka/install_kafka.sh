@@ -96,9 +96,10 @@ cp -ra ${BUILD_DIR}/bin/*.sh $PREFIX/$LIB_DIR/bin
 # Copy in the configuration files
 install -d -m 0755 $PREFIX/$CONF_DIR
 cp -a ${BUILD_DIR}/config/* $PREFIX/$CONF_DIR
-ln -s /etc/kafka/conf $PREFIX/$LIB_DIR/conf
-ln -s /etc/kafka/conf /etc/kafka/config
-
+cd $PREFIX/etc/kafka
+ln -s conf.dist conf
+ln -s conf.dist config
+cd -
 install -d -m 0755 $PREFIX/$BIN_DIR
 
 
