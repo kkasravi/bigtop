@@ -100,6 +100,9 @@ cd $PREFIX/etc/kafka
 ln -s conf.dist conf
 ln -s conf.dist config
 cd -
+cd $PREFIX/$LIB_DIR
+ln -s $CONF_DIR config
+cd -
 install -d -m 0755 $PREFIX/$BIN_DIR
 
 
