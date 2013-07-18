@@ -77,5 +77,7 @@ fi
 %defattr(-,root,root,755)
 %config(noreplace) %{config_kafka}.dist
 %doc %{doc_kafka}
+%{config_kafka}
+%{config_kafka}ig
 %{lib_kafka}
-%{bin_kafka}/startkafka
+%{bin_kafka}/kafka
