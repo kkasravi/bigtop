@@ -97,7 +97,7 @@ cp -ra ${BUILD_DIR}/bin/*.sh $PREFIX/$LIB_DIR/bin
 install -d -m 0755 $PREFIX/$CONF_DIR
 cp -a ${BUILD_DIR}/config/* $PREFIX/$CONF_DIR
 ln -s /etc/kafka/conf $PREFIX/$LIB_DIR/conf
-ln -s $PREFIX/$LIB_DIR/conf $PREFIX/$LIB_DIR/config 
+ln -s /etc/kafka/conf /etc/kafka/config
 
 install -d -m 0755 $PREFIX/$BIN_DIR
 
@@ -118,10 +118,10 @@ usage: \$0 <options>
 }
 
 OPTS=\$(getopt \
-  -n \$0 \
-  -o '' \
-  -l 'start::' \
-  -l 'stop::' \
+  -n \$0 \\
+  -o '' \\
+  -l 'start::' \\
+  -l 'stop::' \\
   -l 'list::' -- "\$@")
 
 if [ \$? != 0 ] ; then
@@ -132,16 +132,17 @@ eval set -- "\$OPTS"
 while true ; do
     case "\$1" in
         --start)
-        START=1 ; shift 1
+        START=1 ; shift ; break
         ;;
         --stop)
-        STOP=1 ; shift 1
+        STOP=1 ; shift ; break
         ;;
         --list)
-        LIST=1 ; shift 1
+        LIST=1 ; shift ; break
         ;;
         --)
-        shift ; break
+        usage
+        exit 1
         ;;
         *)
         echo "Unknown option: \$1"
@@ -160,12 +161,12 @@ fi
 
 CLASSPATH=$INSTALLED_LIB_DIR/*.jar
 
-if [ ! -z $START ]; then
+if [ ! -z \$START ]; then
   $LIB_DIR/bin/zookeeper-server-start.sh $CONF_DIR/zookeeper.properties&
   $LIB_DIR/bin/kafka-server-start.sh $CONF_DIR/server.properties&
-elif [ ! -z $STOP ]; then
-  kill $(ps -eaf|grep kafka|grep -v grep|awk '{print $2}')
-elif [ ! -z $LIST ]; then
+elif [ ! -z \$STOP ]; then
+  kill \$(ps -eaf|grep kafka|grep -v grep|awk '{print $2}')
+elif [ ! -z \$LIST ]; then
   $LIB_DIR/bin/kafka-list-topic.sh
 fi
 EOF
