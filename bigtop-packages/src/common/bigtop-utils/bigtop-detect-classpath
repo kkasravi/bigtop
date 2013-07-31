@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.
@@ -13,16 +14,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-export HBASE_HOME="/usr/lib/hbase"
-export HBASE_CONF_DIR="/etc/hbase/conf"
+# Add files to BIGTOP_CLASSPATH and they will be prepended to the contents of /var/lib/bigtop
+[ -r /etc/default/bigtop-utils ] && . /etc/default/bigtop-utils
 
-export HBASE_PID_DIR="/var/run/hbase"
-export HBASE_LOG_DIR="/var/log/hbase"
-export HBASE_IDENT_STRING=hbase
+# Overriding this is not recommended because it has had to be hard-coded in
+# properties files for components that use bigtop-tomcat
+BIGTOP_CLASSPATH_DIR=/var/lib/bigtop
 
-# Up to 100 region servers can be run on a single host by specifying offsets
-# here or as CLI args when using init scripts. Each offset identifies an
-# instance and is used to determine the network ports it uses. Each instance
-# will have have its own log and pid files.
-#
-# REGIONSERVER_OFFSETS="1 2 3"
+# Create a string suitable for inclusion in CLASSPATH
+# for components that can use it in their environment
+for file in $BIGTOP_CLASSPATH_DIR/*.jar; do
+    if [ -z "$BIGTOP_CLASSPATH" ]; then
+        BIGTOP_CLASSPATH="$file"
+    else
+        BIGTOP_CLASSPATH="$BIGTOP_CLASSPATH:$file"
+    fi
+done
+export BIGTOP_CLASSPATH
