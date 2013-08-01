@@ -48,6 +48,7 @@ License: APL2
 Source0: %{name}-%{kafka_base_version}.tgz
 Source1: do-component-build 
 Source2: install_%{name}.sh
+Source3: kafka-server.sh
 BuildArch: noarch
 BuildRequires: autoconf, automake
 Requires(pre): coreutils, /usr/sbin/groupadd, /usr/sbin/useradd
@@ -85,6 +86,7 @@ sh $RPM_SOURCE_DIR/install_kafka.sh \
           --prefix=$RPM_BUILD_ROOT
 %__install -d -m 0755 $RPM_BUILD_ROOT/%{initd_dir}/
 init_file=$RPM_BUILD_ROOT/%{initd_dir}/%{name}
+orig_init_file=%{SOURCE3}
 %__cp $orig_init_file $init_file
 chmod 755 $init_file
 
