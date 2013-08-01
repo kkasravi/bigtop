@@ -16,6 +16,7 @@
 %define kafka_name kafka
 %define lib_kafka /usr/lib/%{kafka_name}
 %define etc_kafka /etc/%{kafka_name}
+%define etc_rcd /etc/rc.d
 %define config_kafka %{etc_kafka}/conf
 %define log_kafka /var/log/%{kafka_name}
 %define run_kafka /var/run/%{kafka_name}
@@ -115,6 +116,7 @@ fi
 %config(noreplace) %{config_kafka}.dist
 %{config_kafka}
 %{config_kafka}ig
+%{etc_rcd}/kafka
 %{lib_kafka}/bin/*
 %{lib_kafka}/*.jar
 %{lib_kafka}/config
