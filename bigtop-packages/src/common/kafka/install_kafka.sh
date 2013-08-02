@@ -168,7 +168,7 @@ CLASSPATH=$INSTALLED_LIB_DIR/*.jar
 if [ ! -z \$START ]; then
   $LIB_DIR/bin/zookeeper-server-start.sh $CONF_DIR/zookeeper.properties&
   $LIB_DIR/bin/kafka-server-start.sh $CONF_DIR/server.properties&
-  echo $! > /var/run/kafka/kafka-server.pid
+  echo \$! > /var/run/kafka/kafka-server.pid
 elif [ ! -z \$STOP ]; then
   kill \$(ps -eaf|grep kafka|grep -v grep|awk '{print \$2}')
 elif [ ! -z \$LIST ]; then
