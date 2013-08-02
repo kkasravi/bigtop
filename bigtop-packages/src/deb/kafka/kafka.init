@@ -112,12 +112,12 @@ stop_pidfile() {
 }
 
 start() {
-    su -s /bin/sh kafka -c "${DAEMON_SCRIPT} start"
+    su -s /bin/sh kafka -c "${DAEMON_SCRIPT} --start"
 }
 
 stop() {
 	if check_pidfile $PID_FILE ;  then
-        su -s /bin/sh kafka -c "${DAEMON_SCRIPT} stop"
+        su -s /bin/sh kafka -c "${DAEMON_SCRIPT} --stop"
 	fi
 }
 
