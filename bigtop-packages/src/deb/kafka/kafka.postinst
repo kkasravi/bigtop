@@ -19,6 +19,7 @@ set -e
 case "$1" in
     configure)
         # Install config alternatives
+        chown -R kafka:kafka /var/log/kafka
         update-alternatives  --install /etc/kafka/conf kafka-conf /etc/kafka/conf.dist 30
     ;;
 

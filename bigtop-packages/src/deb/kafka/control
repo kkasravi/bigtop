@@ -12,20 +12,16 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 Source: kafka
 Section: misc
 Priority: extra
 Maintainer: Bigtop <bigtop-dev@incubator.apache.org>
-Build-Depends: debhelper (>= 6)
+Build-Depends: debhelper (>= 7.0.50~), autoconf, automake
 Standards-Version: 0.8
 Homepage: http://kafka.apache.org/
 
 Package: kafka
 Architecture: all
-Depends: bigtop-utils
+Depends: bigtop-utils (>= 0.6)
 Description: A high-throughput distributed messaging system.
- Kafka is designed for persistent messages as the common case.
- Throughput rather than features are the primary design constraint.
- State about what has been consumed is maintained as part of the consumer not the server.
- Kafka is explicitly distributed. It is assumed that producers, brokers, and consumers are all spread over multiple machines.
+ Kafka is designed for persistent messages as the common case. Throughput rather than features are the primary design constraint. State about what has been consumed is maintained as part of the consumer not the server. Kafka is explicitly distributed. It is assumed that producers, brokers, and consumers are all spread over multiple machines.
